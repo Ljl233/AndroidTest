@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        if(notificationManagerCompat.areNotificationsEnabled()){
+        if(!notificationManagerCompat.areNotificationsEnabled()){
             Toast.makeText(this,"权限未开启",Toast.LENGTH_LONG).show();
         }else notificationManagerCompat.notify(1, mBuilder.build());
     }

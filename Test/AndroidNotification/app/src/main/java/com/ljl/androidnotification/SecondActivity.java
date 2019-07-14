@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,9 +29,10 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                //showNotification();
+                showNotification();
 
             }
         });
@@ -63,6 +65,7 @@ public class SecondActivity extends AppCompatActivity {
         notificationManager.notify(111123, notification);
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void showNotification() {
         //设置跳转意图:点击通知栏，跳转搜索百度
         Intent intent = new Intent();
@@ -86,6 +89,7 @@ public class SecondActivity extends AppCompatActivity {
                     .setChannelId(CHANNEL_ID)
                     .setContentIntent(pi)//设置pendingIntent,点击通知时就会用到
                     .build();
+            Toast.makeText(this,"notification build successfully",Toast.LENGTH_LONG).show();
         } else {
             notification = new NotificationCompat.Builder(this).setContentTitle("新消息2")
                     .setContentText("Hello world")
@@ -95,7 +99,9 @@ public class SecondActivity extends AppCompatActivity {
                     .setContentIntent(pi) //设置pe
                     .build();
         }
-        manager.notify(0, notification);
+        if(!manager.areNotificationsEnabled()){
+            Toast.makeText(this,"权限未开启",Toast.LENGTH_LONG).show();
+        }else manager.notify(0, notification);
 
     }
 }
