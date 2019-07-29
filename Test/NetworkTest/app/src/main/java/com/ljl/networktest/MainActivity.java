@@ -63,6 +63,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendRequestWithHttpURLConnect() {
+//        HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
+//            @Override
+//            public void onFinish(String response) {
+//                // 在这里根据返回内容执行具体的逻辑
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                // 在这里对异常情况进行处理
+//            }
+//        });
         //开启线程发起网络请求
         new Thread(new Runnable() {
             @Override
