@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/create_group"
+        android:icon="@drawable/star_yellow_16"
+        android:orderInCategory="80"
+        android:title="action_create"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/add_friends"
+        android:icon="@drawable/star_yellow_16"
+        android:title="add_friends"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/scan_code"
+        android:icon="@drawable/star_yellow_16"
+        android:orderInCategory="60"
+        android:title="scan_code"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/face_to_face"
+        android:title="face_to_face"
+        app:showAsAction="never"
+        android:icon="@drawable/star_yellow_16"/>
+</menu>
