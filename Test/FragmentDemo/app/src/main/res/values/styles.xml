@@ -8,8 +8,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="word_title">
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
 </resources>
