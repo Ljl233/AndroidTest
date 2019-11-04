@@ -1,4 +1,4 @@
-package com.example.roomdemo.data.source;
+package com.example.roomdemo.data;
 
 import android.app.Application;
 
@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.roomdemo.data.Word;
+import com.example.roomdemo.data.source.WordRepository;
 
 import java.util.List;
 

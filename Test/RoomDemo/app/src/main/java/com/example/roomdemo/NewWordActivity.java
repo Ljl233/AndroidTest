@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,9 +30,10 @@ public class NewWordActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(mEditText.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    String word=mEditText.getText().toString();
-                    replyIntent.putExtra(EXTRA_REPLY,word);
-                    setResult(RESULT_OK,replyIntent);
+                    String word = mEditText.getText().toString();
+                    replyIntent.putExtra(EXTRA_REPLY, word);
+                    Log.e("tag","new activity reply");
+                    setResult(RESULT_OK, replyIntent);
                 }
                 finish();
             }

@@ -2,6 +2,7 @@ package com.example.roomdemo;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -16,12 +17,16 @@ import com.example.roomdemo.data.source.WordDao;
 public abstract class WordRoomDatabase extends RoomDatabase {
     public abstract WordDao wordDao();
 
+    //volatile关键字，保证变量在多线程中的可见性
     private static volatile WordRoomDatabase INSTANCE;
 
     public static WordRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
+            //保证单线程访问代码块，避免创建两个实例
             synchronized (WordRoomDatabase.class) {
                 if (INSTANCE == null) {
+                    Log.e("tag", context.toString());
+                    Log.e("tag", context.getApplicationContext().toString());
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WordRoomDatabase.class, "word_database")
                             .addCallback(sRoomDatabaseCallback)
                             .build();
