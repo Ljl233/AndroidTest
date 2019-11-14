@@ -1,30 +1,41 @@
 package com.example.recyclerviewtest;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    public RecyclerView recyclerView;
+
+    private Button mBtAnim, mBtStyle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.my_recycler_view);
-        List<Data> datas = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            datas.add(new Data(i));
-        }
 
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new TestAdapter(datas));
+        mBtAnim = findViewById(R.id.bt_anim);
+        mBtStyle = findViewById(R.id.bt_style);
+        initListener();
+    }
+
+    void initListener() {
+        mBtAnim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AnimActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mBtStyle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, StyleActivity.class));
+            }
+        });
     }
 }

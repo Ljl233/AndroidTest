@@ -3,7 +3,6 @@ package com.example.recyclerviewtest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class TestAdapter extends RecyclerView.Adapter<TestAdapter.MyViewHolder> {
     private static List<Integer> arra = new ArrayList<>();
