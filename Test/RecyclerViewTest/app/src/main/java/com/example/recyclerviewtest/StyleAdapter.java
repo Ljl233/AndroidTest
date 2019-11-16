@@ -1,13 +1,22 @@
 package com.example.recyclerviewtest;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 //如果item style 只有一种样式，泛型直接传自定义的viewHolder，如果多个style 必须是RecyclerView.ViewHolder,然后进行类型的强制转换
 public class StyleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private List<Integer> mSrc;
+    private Context mContext;
+
+    public StyleAdapter(Context context) {
+    }
 
     //根据不同的ViewHolder填充不同的布局
     @NonNull

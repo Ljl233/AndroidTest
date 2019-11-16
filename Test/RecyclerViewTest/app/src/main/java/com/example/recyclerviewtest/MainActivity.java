@@ -7,9 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button mBtAnim, mBtStyle;
+    private Button mBtAnim, mBtStyle, mBtStub;
 
 
     @Override
@@ -19,10 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
         mBtAnim = findViewById(R.id.bt_anim);
         mBtStyle = findViewById(R.id.bt_style);
+        mBtStub = findViewById(R.id.bt_stub);
+
         initListener();
     }
 
     void initListener() {
+        mBtStub.setOnClickListener(this);
         mBtAnim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,5 +40,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, StyleActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bt_stub:
+                startActivity(new Intent(MainActivity.this, ViewStubActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }
