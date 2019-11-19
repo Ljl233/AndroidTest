@@ -3,14 +3,13 @@ package com.example.customview;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    @SuppressLint("ClickableViewAccessibility")
+    public TittleBar mBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,17 +17,30 @@ public class MainActivity extends Activity {
 
         final CustomView c = findViewById(R.id.custom_view);
 
-        c.smoothScrollTo(-400, 0);
-
-        Button button = findViewById(R.id.button);
-        button.setOnTouchListener(new View.OnTouchListener() {
+        mBar = findViewById(R.id.title_bar);
+        mBar.setTitle("custom titleBar");
+        mBar.setLeftListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                double a = Double.parseDouble("2.43333");
-                Toast.makeText(MainActivity.this, "oooo", Toast.LENGTH_SHORT).show();
-                return true;
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "left left left", Toast.LENGTH_SHORT).show();
             }
         });
+        mBar.setRightListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "right right right", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//        Button button = findViewById(R.id.button);
+//        button.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                double a = Double.parseDouble("2.43333");
+//                Toast.makeText(MainActivity.this, "oooo", Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+//        });
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
