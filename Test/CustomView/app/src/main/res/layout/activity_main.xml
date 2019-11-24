@@ -2,36 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?android:attr/windowTitleBackgroundStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <com.example.customview.TittleBar
-        android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:title_bg="@android:color/holo_orange_dark"
-        app:title_text="自定义组合控件"
-        app:title_text_color="@android:color/holo_blue_light" />
+        android:layout_height="wrap_content"
+        app:title_bg="@color/colorPrimary"
+        app:title_text="自定义view" />
 
-    <com.example.customview.CustomView
-        android:id="@+id/custom_view"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@android:color/holo_blue_bright" />
-
-
-    <com.example.customview.RectView
-        android:id="@+id/rect_view"
-        android:layout_width="100dp"
+    <com.example.customview.SplitView
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@android:color/holo_blue_light"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="40dp"
-        android:paddingBottom="40dp" />
+        app:date_size="25sp"
+        app:date_text="今"
+        app:time_text="10.23" />
+
+    <!--    <com.example.customview.TittleBar-->
+    <!--        android:id="@+id/title_bar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        app:title_bg="@android:color/holo_orange_dark"-->
+    <!--        app:title_text_color="@android:color/holo_blue_light" />-->
+
+    <!--    <com.example.customview.CustomView-->
+    <!--        android:id="@+id/custom_view"-->
+    <!--        android:layout_width="40dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:background="@android:color/holo_blue_bright" />-->
 
 
+    <!--    <com.example.customview.RectView-->
+    <!--        android:id="@+id/rect_view"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:background="@android:color/holo_blue_light"-->
+    <!--        android:paddingLeft="10dp"-->
+    <!--        android:paddingTop="10dp"-->
+    <!--        android:paddingRight="40dp"-->
+    <!--        android:paddingBottom="40dp" />-->
+
+    <!--    <com.example.customview.HorizontalView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        &lt;!&ndash;        <ListView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/list_one"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="match_parent" />&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;        <ListView&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/list_two"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:layout_height="match_parent" />&ndash;&gt;-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/text1"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:background="@android:color/holo_blue_light"-->
+    <!--            android:layout_height="match_parent" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/text2"-->
+    <!--            android:background="@android:color/holo_orange_dark"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
+
+    <!--    </com.example.customview.HorizontalView>-->
 </LinearLayout>

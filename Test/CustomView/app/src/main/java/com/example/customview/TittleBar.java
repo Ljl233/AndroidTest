@@ -18,6 +18,7 @@ public class TittleBar extends RelativeLayout {
     private ImageView mIvLeft, mIvRight;
     private RelativeLayout mTitleLayout;
     private int mColor, mTextColor;
+    private String mTitleName;
 
 
     public TittleBar(Context context) {
@@ -32,10 +33,9 @@ public class TittleBar extends RelativeLayout {
 
         //解析自定义属性
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleBar);
-
         mColor = mTypedArray.getColor(R.styleable.TitleBar_title_bg, Color.RED);
         mTextColor = mTypedArray.getColor(R.styleable.TitleBar_title_text_color, Color.BLACK);
-      //  setTitle(mTypedArray.getString(R.styleable.TitleBar_title_text));
+        mTitleName = mTypedArray.getString(R.styleable.TitleBar_title_text);
         //回收哦
         mTypedArray.recycle();
 
@@ -66,6 +66,7 @@ public class TittleBar extends RelativeLayout {
 
         //设置背景颜色
         mTitleLayout.setBackgroundColor(mColor);
+        mTvTitle.setText(mTitleName);
         //设置字体颜色
         mTvTitle.setTextColor(mTextColor);
     }

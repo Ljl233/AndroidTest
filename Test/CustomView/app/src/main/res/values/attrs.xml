@@ -6,4 +6,14 @@
         <attr name="title_text" format="string" />
         <attr name="title_bg" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="SplitView">
+        <attr name="date_text" format="string" />
+        <attr name="time_text" format="string" />
+        <attr name="circle_radius" format="float" />
+        <attr name="date_size" format="dimension" />
+        <attr name="time_size" format="dimension" />
+        <attr name="data_color" format="color" />
+        <attr name="time_color" format="color" />
+    </declare-styleable>
 </resources>
