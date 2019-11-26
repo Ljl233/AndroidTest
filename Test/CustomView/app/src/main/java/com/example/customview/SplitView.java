@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -29,6 +30,7 @@ public class SplitView extends View {
     public SplitView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
+        Log.e("TAG:", "SplitView(Context context, @Nullable AttributeSet attrs)");
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.SplitView);
 
         mTextDate = mTypedArray.getString(R.styleable.SplitView_date_text);
@@ -66,23 +68,27 @@ public class SplitView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        Log.e("TAG:", "onMeasure");
         int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
 
         if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(300, 300);
+            setMeasuredDimension(300, (int) (mCircleRadius*2)+40);
         } else if (widthSpecMode == MeasureSpec.AT_MOST) {
             setMeasuredDimension(300, heightSpecSize);
         } else if (heightSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(widthSpecSize, 300);
+            setMeasuredDimension(widthSpecSize, (int) (mCircleRadius*2)+40);
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+        Log.e("TAG:", "onDraw");
         int height = getHeight();
         int width = getWidth();
         int radius = (int) mCircleRadius;
