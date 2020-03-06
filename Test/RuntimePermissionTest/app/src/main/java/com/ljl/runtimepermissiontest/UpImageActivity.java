@@ -3,8 +3,10 @@ package com.ljl.runtimepermissiontest;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,8 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 1. 检查权限
@@ -43,6 +51,7 @@ public class UpImageActivity extends AppCompatActivity {
     private static final int CHOOSE_PHOTO = 4;
     private static final int TAKE_PHOTO = 5;
     private static final String TAG = "UpImageActivity";
+    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +102,39 @@ public class UpImageActivity extends AppCompatActivity {
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, TAKE_PHOTO);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (photoFile != null) {
+                Uri photoUri = FileProvider.getUriForFile(
+                        this,
+                        "com.ljl.runtimepermissiontest.fileprovider",
+                        photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(intent, TAKE_PHOTO);
+            }
+        }
     }
+
+    private File createImageFile() throws IOException {
+        //1. set the unique name
+        String dataStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + dataStamp + "_";
+        //2. set the image file address
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  //prefix
+                ".jpg",   //suffix
+                storageDir      //directory
+        );
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -105,10 +145,9 @@ public class UpImageActivity extends AppCompatActivity {
                 mIvLoadImage.setImageURI(uri);
                 break;
             case TAKE_PHOTO:
-                Uri uri2 = data.getData();
-                mIvLoadImage.setImageURI(uri2);
-                break;
-
+                Bundle extras = data.getExtras();
+                Bitmap bitmap = (Bitmap) extras.get("data");
+                mIvLoadImage.setImageBitmap(bitmap);
         }
     }
 
