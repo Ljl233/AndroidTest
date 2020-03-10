@@ -4,11 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,9 +24,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,6 +55,7 @@ public class UpImageActivity extends AppCompatActivity {
     private static final int TAKE_PHOTO = 5;
     private static final String TAG = "UpImageActivity";
     private String currentPhotoPath;
+    File image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,16 +78,16 @@ public class UpImageActivity extends AppCompatActivity {
         Button camera = popView.findViewById(R.id.pop_camera);
         Button photo = popView.findViewById(R.id.pop_photo);
         Button dismiss = popView.findViewById(R.id.pop_dismiss);
-        Log.e(TAG, "popView context" + popView.getContext().toString());
+
         //获取手机的宽高
         int width = getResources().getDisplayMetrics().widthPixels;
         int height = getResources().getDisplayMetrics().heightPixels / 3;
-
         final PopupWindow popupWindow = new PopupWindow(popView, width, height, true);
+
         //点击外部 弹窗消失
         popupWindow.setOutsideTouchable(true);
-        Log.e(TAG, "popview root" + popView.getRootView().toString());
         popupWindow.showAtLocation(popView.getRootView(), Gravity.BOTTOM, 0, 0);
+
         camera.setOnClickListener(v -> {
             takePhoto();
         });
@@ -91,6 +95,10 @@ public class UpImageActivity extends AppCompatActivity {
         photo.setOnClickListener(v -> {
             popupWindow.dismiss();
             openAlbum();
+        });
+
+        dismiss.setOnClickListener(v -> {
+            popupWindow.dismiss();
         });
     }
 
@@ -102,7 +110,7 @@ public class UpImageActivity extends AppCompatActivity {
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getPackageManager()) != null) {
+        if (intent.resolveActivity(getPackageManager()) != null) {//判断是否有能够处理这个Action的应用
             File photoFile = null;
             try {
                 photoFile = createImageFile();
@@ -112,7 +120,7 @@ public class UpImageActivity extends AppCompatActivity {
             if (photoFile != null) {
                 Uri photoUri = FileProvider.getUriForFile(
                         this,
-                        "com.ljl.runtimepermissiontest.fileprovider",
+                        "com.ljl.runtimepermissiontest.fileprovider",//和file_paths里的一样
                         photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(intent, TAKE_PHOTO);
@@ -120,35 +128,25 @@ public class UpImageActivity extends AppCompatActivity {
         }
     }
 
-    private File createImageFile() throws IOException {
-        //1. set the unique name
-        String dataStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + dataStamp + "_";
-        //2. set the image file address
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  //prefix
-                ".jpg",   //suffix
-                storageDir      //directory
-        );
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK)
+            switch (requestCode) {
+                case CHOOSE_PHOTO:
+                    Uri uri = data.getData();
+                    Log.e(TAG, "choose photo uri:" + uri);
+                    mIvLoadImage.setImageURI(uri);
+                    break;
+                case TAKE_PHOTO:
+                    Uri uri1 = new Uri.Builder().scheme(UriUtil.LOCAL_FILE_SCHEME)
+                            .path(currentPhotoPath)
+                            .build();
+                    Log.e(TAG, "uri1:" + uri1);
+                    mIvLoadImage.setImageURI(uri1);
 
-        switch (requestCode) {
-            case CHOOSE_PHOTO:
-                Uri uri = data.getData();
-                mIvLoadImage.setImageURI(uri);
-                break;
-            case TAKE_PHOTO:
-                Bundle extras = data.getExtras();
-                Bitmap bitmap = (Bitmap) extras.get("data");
-                mIvLoadImage.setImageBitmap(bitmap);
-        }
+                    break;
+            }
     }
 
     //1. 检查权限
@@ -175,6 +173,56 @@ public class UpImageActivity extends AppCompatActivity {
         else hasCamera = true;
 
         return hasCamera && hasRead && hasWrite;
+    }
+
+    private File createImageFile() throws IOException {
+        //1. set the unique name
+        String dataStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + dataStamp + "_";
+        //2. set the image file address
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);//getExternalFilesDir是获得外部SD卡的路径
+
+        Log.e(TAG, "storageDir:" + storageDir.toString());
+        image = File.createTempFile(
+                imageFileName,  //prefix
+                ".jpg",   //suffix
+                storageDir      //directory
+        );
+        currentPhotoPath = image.getAbsolutePath();
+        Log.e(TAG, "currentPhotoPath:" + currentPhotoPath.toString());
+        return image;
+    }
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(currentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = mIvLoadImage.getWidth();
+        int targetH = mIvLoadImage.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        mIvLoadImage.setImageBitmap(bitmap);
     }
 
     @Override
