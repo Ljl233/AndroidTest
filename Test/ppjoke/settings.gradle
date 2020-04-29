@@ -1,0 +1,3 @@
+rootProject.name='ppjoke'
+include ':app'
+include ':libnetwork'
