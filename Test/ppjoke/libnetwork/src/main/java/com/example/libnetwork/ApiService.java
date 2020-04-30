@@ -18,7 +18,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ApiService {
-    private static final OkHttpClient okHttpClient;
+    protected static final OkHttpClient okHttpClient;
+    protected static String sBaseUrl;
+    protected static Convert sConvert;
 
     static {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -50,7 +52,7 @@ public class ApiService {
         }};
         try {
             SSLContext ssl = SSLContext.getInstance("SSL");
-            ssl.init(null,trustManagers,new SecureRandom());
+            ssl.init(null, trustManagers, new SecureRandom());
 
             HttpsURLConnection.setDefaultSSLSocketFactory(ssl.getSocketFactory());
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
@@ -64,5 +66,14 @@ public class ApiService {
             e.printStackTrace();
         }
 
+    }
+
+    public static void init(String baseUrl, Convert convert) {
+
+        sBaseUrl = baseUrl;
+        if (convert == null) {
+            convert = new JsonConvert();
+        }
+        sConvert=convert;
     }
 }

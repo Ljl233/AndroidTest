@@ -2,6 +2,9 @@ package com.example.ppjoke;
 
 import android.os.Bundle;
 
+import com.example.libnetwork.ApiResponse;
+import com.example.libnetwork.GetRequest;
+import com.example.libnetwork.JsonCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +12,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +30,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        GetRequest<JSONObject> request = new GetRequest<>("www.mooc.com");
+        request.execute();
+
+        request.execute(new JsonCallback<JSONObject>() {
+            @Override
+            public void onSuccess(ApiResponse<JSONObject> response) {
+                super.onSuccess(response);
+            }
+        });
     }
 
 }
