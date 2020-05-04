@@ -1,3 +1,5 @@
 rootProject.name='ppjoke'
 include ':app'
 include ':libnetwork'
+include ':libcommon'
+include ':libcommon'
