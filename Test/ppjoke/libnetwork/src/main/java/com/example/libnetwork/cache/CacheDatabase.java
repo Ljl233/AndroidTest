@@ -1,10 +1,14 @@
 package com.example.libnetwork.cache;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.libcommon.AppGlobals;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 
 @Database(entities = {Cache.class}, version = 1, exportSchema = true)
 public abstract class CacheDatabase extends RoomDatabase {
@@ -33,7 +37,10 @@ public abstract class CacheDatabase extends RoomDatabase {
                 .build();
     }
 
-    public CacheDatabase get() {
+    public abstract CacheDao getCache();
+
+
+    public static CacheDatabase get() {
         return database;
     }
 }
