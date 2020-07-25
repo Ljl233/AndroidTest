@@ -8,9 +8,14 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import static android.view.View.MeasureSpec.AT_MOST;
+import static android.view.View.MeasureSpec.EXACTLY;
+import static android.view.View.MeasureSpec.UNSPECIFIED;
 
 public class TittleBar extends RelativeLayout {
 
@@ -53,6 +58,24 @@ public class TittleBar extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        switch (MeasureSpec.getMode(widthMeasureSpec)) {
+            case UNSPECIFIED:
+                Log.e("TAG onMeasure", "UNSPECIFIED");
+                break;
+            case AT_MOST:
+                Log.e("TAG onMeasure", "AT_MOST");
+                break;
+            case EXACTLY:
+                Log.e("TAG onMeasure", "EXACTLY");
+                break;
+        }
+
     }
 
     private void initView(Context context) {

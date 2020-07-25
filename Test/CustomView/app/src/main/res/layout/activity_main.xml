@@ -10,6 +10,7 @@
     <com.example.customview.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         app:title_bg="@color/colorPrimary"
         app:title_text="自定义view" />
 
@@ -20,6 +21,11 @@
         app:date_size="25sp"
         app:date_text="今"
         app:time_text="10.23" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!--    <com.example.customview.TittleBar-->
     <!--        android:id="@+id/title_bar"-->

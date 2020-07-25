@@ -2,12 +2,15 @@ package com.example.asynctaskdemo;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.concurrent.Callable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,10 +19,12 @@ public class MainActivity extends AppCompatActivity {
     Button start, end;
     MyAsyncTask asyncTask;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.e("TAG", "on create in" + Thread.currentThread().toString());
 
         textView = findViewById(R.id.textView);
         progressBar = findViewById(R.id.progress_horizontal);
@@ -45,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 asyncTask.cancel(true);
             }
         });
+
+       // test();
     }
 
     void preLoading() {
@@ -54,6 +61,22 @@ public class MainActivity extends AppCompatActivity {
     void postLoading(String s) {
         textView.setText(s);
     }
+
+    private static abstract class WorkerRunnable<Params, Result> implements Callable<Result> {
+        Params[] mParams;
+    }
+
+
+    private void test() {
+        WorkerRunnable mWorker = new WorkerRunnable() {
+            @Override
+            public Object call() throws Exception {
+                return null;
+            }
+        };
+
+    }
+
 
     class MyAsyncTask extends AsyncTask<String, Integer, String> {
 
@@ -67,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
+            Log.e("TAG", "do in background in" + Thread.currentThread().toString());
             try {
                 int count = 0;
                 while (count < 99) {

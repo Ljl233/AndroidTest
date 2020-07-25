@@ -1,5 +1,7 @@
 package com.example.libnetwork.cache;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -32,19 +34,19 @@ public class CacheManager {
             return ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
-                if (bais!=null){
+                if (bais != null) {
                     bais.close();
                 }
-                if (ois!=null){
+                if (ois != null) {
                     ois.close();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("   xxx");
         return null;
     }
 
@@ -58,6 +60,7 @@ public class CacheManager {
             oos = new ObjectOutputStream(baos);
             oos.writeObject(body);
             oos.flush();
+            return baos.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
