@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button bt2;
     @BindView(R.id.bt_3)
     Button bt3;
+    @BindView(R.id.bt_4)
+    Button bt4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @OnClick({R.id.bt_1, R.id.bt_2, R.id.bt_3})
+    @OnClick({R.id.bt_1, R.id.bt_2, R.id.bt_3, R.id.bt_4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_1:
@@ -56,17 +58,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Person person = new Person();
                 person.setName("Charlie");
                 person.setNumber(20020304);
-                Intent intent = new Intent(MainActivity.this,SecondActivity.class);
-                intent.putExtra("person_serializable",person);
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("person_serializable", person);
                 startActivity(intent);
                 break;
             case R.id.bt_3:
                 Person2 person2 = new Person2();
                 person2.setName("Charlie");
                 person2.setNumber(20020304);
-                intent = new Intent(MainActivity.this,SecondActivity.class);
-                intent.putExtra("person_serializable",person2);
+                intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("person_serializable", person2);
                 startActivity(intent);
+                break;
+            case R.id.bt_4:
+                startActivity(new Intent(MainActivity.this, Main2Activity.class));
                 break;
         }
     }

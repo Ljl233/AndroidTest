@@ -1,1 +1,3 @@
+include ':lib_koin_export'
+include ':lib_koin_practice'
 include ':app'
